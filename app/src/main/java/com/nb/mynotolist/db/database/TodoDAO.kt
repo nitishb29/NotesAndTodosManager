@@ -25,6 +25,6 @@ interface TodoDAO {
     fun getAllItems(): Flow<List<TodoEntity>>
 
     @Transaction
-    @Query("SELECT * FROM T_TODO WHERE description LIKE :query")
+    @Query("SELECT * FROM T_TODO WHERE description LIKE '%' || :query || '%' ")
     fun searchItem(query: String?): Flow<List<TodoEntity>>
 }

@@ -23,6 +23,6 @@ interface NoteDAO {
     @Query("SELECT * FROM T_NOTES ORDER BY id DESC")
     fun getAllNotes(): Flow<List<NoteEntity>>
 
-    @Query("SELECT * FROM T_NOTES WHERE title LIKE :query OR description LIKE :query")
+    @Query("SELECT * FROM T_NOTES WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun searchNote(query: String?): Flow<List<NoteEntity>>
 }

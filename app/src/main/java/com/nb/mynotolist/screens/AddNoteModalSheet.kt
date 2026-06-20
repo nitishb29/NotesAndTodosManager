@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nb.mynotolist.R
 import com.nb.mynotolist.db.entities.NoteEntity
+import com.nb.mynotolist.ui.theme.cardColor
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,7 +48,7 @@ fun AddNoteModalSheet(
     ModalBottomSheet(
         onDismissRequest = onCancel,
         modifier = Modifier.padding(5.dp),
-        containerColor = Color.Black
+        containerColor = cardColor
     ) {
         Column(
             modifier = Modifier

@@ -1,5 +1,7 @@
 package com.nb.mynotolist.routes
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,12 +17,49 @@ fun NotoRouter(
     noteViewModel: NoteViewModel,
     todoViewModel: TodoViewModel
 ) {
-    NavHost(navigationController,
-        startDestination = NotoScreens.NotesScreen.screenName){
-        composable(route = NotoScreens.NotesScreen.screenName){
-            NotesScreen( navigationController, noteViewModel)
+    NavHost(
+        navigationController,
+        startDestination = NotoScreens.NotesScreen.screenName
+    ) {
+        composable(
+            route = NotoScreens.NotesScreen.screenName,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(
+                        durationMillis = 500
+                    )
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(
+                        durationMillis = 500
+                    )
+                )
+            }
+        ) {
+            NotesScreen(navigationController, noteViewModel)
         }
-        composable(NotoScreens.TodosScreen.screenName){
+        composable(NotoScreens.TodosScreen.screenName,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(
+                        durationMillis = 500
+                    )
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(
+                        durationMillis = 500
+                    )
+                )
+            }
+        ) {
             TodoScreen(navigationController, todoViewModel)
         }
     }

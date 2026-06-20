@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nb.mynotolist.R
 import com.nb.mynotolist.db.entities.TodoEntity
+import com.nb.mynotolist.ui.theme.cardColor
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +47,7 @@ fun AddTodoModalSheet(
     ModalBottomSheet(
         onDismissRequest = onCancel,
         modifier = Modifier.padding(5.dp),
-        containerColor = Color.Black
+        containerColor = cardColor
     ) {
         Column(
             modifier = Modifier
@@ -82,6 +84,10 @@ fun AddTodoModalSheet(
             IconButton(
                 onClick = { onSave(taskDescription.trim()) },
                 enabled = taskDescription.isNotBlank(),
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.White,
+                ),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(
@@ -94,12 +100,10 @@ fun AddTodoModalSheet(
                     Icon(
                         painter = painterResource(R.drawable.save_icon),
                         contentDescription = null,
-                        tint = Color.White.copy(0.8f),
                         modifier = Modifier.scale(1.4f)
                     )
                     Text(
                         "Save",
-                        color = Color.White,
                         fontFamily = FontFamily(Font(R.font.unbounded_semibold)),
                         fontSize = 18.sp
                     )
