@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -44,6 +45,7 @@ import com.nb.mynotolist.db.entities.NoteEntity
 import com.nb.mynotolist.db.entities.TodoEntity
 import com.nb.mynotolist.routes.NotoScreens
 import com.nb.mynotolist.ui.theme.buttonColor
+import com.nb.mynotolist.ui.theme.cardColor
 import com.nb.mynotolist.viewmodel.NoteViewModel
 import com.nb.mynotolist.viewmodel.TodoViewModel
 
@@ -73,6 +75,13 @@ fun NotoBottomBar(
             .height(60.dp),
         contentAlignment = Alignment.Center
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(cardColor)
+                .blur(20.dp)
+                .border(1.dp, Color.White.copy(0.1f))
+        )
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -100,9 +109,12 @@ fun NotoBottomBar(
                 ) {
                     Column(
                         modifier = Modifier
+                            .weight(1f)
                             .clickable(onClick = {
-                                navigationController.navigate(NotoScreens.NotesScreen.screenName) {
-                                    popUpTo(0)
+                                if(navigationController.currentDestination?.route != NotoScreens.NotesScreen.screenName) {
+                                    navigationController.navigate(NotoScreens.NotesScreen.screenName) {
+                                        popUpTo(0)
+                                    }
                                 }
                             }, onClickLabel = "Notes"),
                         verticalArrangement = Arrangement.Center,
@@ -125,11 +137,14 @@ fun NotoBottomBar(
                     }
                     Column(
                         modifier = Modifier
+                            .weight(1f)
                             .clickable(onClick = {
-                                navigationController.navigate(NotoScreens.TodosScreen.screenName) {
-                                    popUpTo(0)
+                                if(navigationController.currentDestination?.route != NotoScreens.TodosScreen.screenName) {
+                                    navigationController.navigate(NotoScreens.TodosScreen.screenName) {
+                                        popUpTo(0)
+                                    }
                                 }
-                            }, onClickLabel = "Notes"),
+                            }, onClickLabel = "Todo"),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -150,6 +165,7 @@ fun NotoBottomBar(
                     }
                     Column(
                         modifier = Modifier
+                            .weight(1f)
                             .clickable(
                                 onClick = {
                                     enableSearch = enableSearch.not()
@@ -178,6 +194,7 @@ fun NotoBottomBar(
                     if (isCheckboxEnabled) {
                         Column(
                             modifier = Modifier
+                                .weight(1f)
                                 .clickable(onClick = {
                                     if (todoViewModel != null && listOfItemsToDelete != null) {
                                         listOfItemsToDelete.forEach { item ->
@@ -211,6 +228,7 @@ fun NotoBottomBar(
                     } else {
                         Column(
                             modifier = Modifier
+                                .weight(1f)
                                 .clickable(onClick = { openEditor(Pair(openEditorSheet.not(), Pair(null, null))) }),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -223,7 +241,7 @@ fun NotoBottomBar(
                                 modifier = Modifier.size(iconSize)
                             )
                             Text(
-                                "Add",
+                                "New",
                                 fontSize = textSize,
                                 fontFamily = FontFamily(Font(R.font.unbounded_semibold)),
                                 color = Color.White,
